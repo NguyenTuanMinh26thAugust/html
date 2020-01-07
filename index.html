@@ -20,9 +20,6 @@
         var khoi_luong_ruou =
           the_tich * 1000 * (do_con / 100.0) * 0.8;
         var nong_do_ban_dau = (khoi_luong_ruou / (can_nang * 1000 * r)) * 100;
-        if (nong_do_ban_dau > 1.0) {
-          nong_do_ban_dau = 1;
-        }
         var nong_do_con_lai = nong_do_ban_dau - thoi_gian * 0.015;
         if (nong_do_con_lai < 0)
           nong_do_con_lai = 0;
@@ -34,7 +31,10 @@
           var nong_do_con_lai_mg_100ml
             = nong_do_con_lai * 1000;
           thong_bao += ("Nồng độ ban đầu = " + nong_do_ban_dau_mg_100ml.toFixed(2) + "mg/100ml máu, tương đương " + (nong_do_ban_dau_mg_100ml/210).toFixed(2) + " mg/l khí thở<br>");
-          if (!!thoi_gian) {
+          if (nong_do_ban_dau > 1.0) {
+            thong_bao += ("😱Có bị làm sao không?! Chưa được biết trường hợp nào như thế này ở Việt Nam.<br>");
+          }
+          if (!!thoi_gian && nong_do_ban_dau <= 1) {
             thong_bao += ("Nồng độ còn lại sau " + thoi_gian + " giờ = " + nong_do_con_lai_mg_100ml.toFixed(2) + " mg/100ml máu, tương đương " + (nong_do_con_lai_mg_100ml/210).toFixed(2) + " mg/l khí thở<br>");
             var kiem_tra = nong_do_con_lai_mg_100ml;
             if (kiem_tra > 0 && kiem_tra <=50) {
