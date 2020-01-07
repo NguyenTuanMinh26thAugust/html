@@ -1,0 +1,78 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Ba Ngoc">
+    <title>Máy tính nồng độ cồn</title>
+    <script>
+      function refreshResult() {
+        var the_tich = document.getElementById("the_tich").value;
+        var do_con = document.getElementById("do_con").value;
+        var gioi_tinh = document.getElementById("gioi_tinh").value;
+        var can_nang = document.getElementById("can_nang").value;
+        var thoi_gian = document.getElementById("thoi_gian").value;
+        var bang_ket_qua = document.getElementById("ket_qua");
+        var r = 0.68;
+        if (gioi_tinh == 'Nam') {
+          r = 0.68;
+        } else {
+          r = 0.55;
+        }
+        var khoi_luong_ruou =
+          the_tich * 1000 * (do_con / 100.0) * 0.8;
+        var nong_do_ban_dau = (khoi_luong_ruou / (can_nang * 1000 * r)) * 100;
+        if (nong_do_ban_dau > 1.0) {
+          nong_do_ban_dau = 1;
+        }
+        var nong_do_con_lai = nong_do_ban_dau - thoi_gian * 0.015;
+        if (nong_do_con_lai < 0)
+          nong_do_con_lai = 0;
+        var thong_bao =
+         gioi_tinh + " (r=" + r + ") cân nặng " + can_nang + " kg đã uống " + the_tich + " lít độ cồn " + do_con +"% <br>";
+         if (!!can_nang && !!the_tich && !!do_con) {
+          var nong_do_ban_dau_mg_100ml
+            = nong_do_ban_dau * 1000;
+          var nong_do_con_lai_mg_100ml
+            = nong_do_con_lai * 1000;
+          thong_bao += ("Nồng độ ban đầu = " + nong_do_ban_dau_mg_100ml.toFixed(2) + "mg/100ml máu, tương đương " + (nong_do_ban_dau_mg_100ml/210).toFixed(2) + " mg/l khí thở<br>");
+          if (!!thoi_gian) {
+            thong_bao += ("Nồng độ còn lại sau " + thoi_gian + " giờ = " + nong_do_con_lai_mg_100ml.toFixed(2) + " mg/100ml máu, tương đương " + (nong_do_con_lai_mg_100ml/210).toFixed(2) + " mg/l khí thở<br>");
+            var kiem_tra = nong_do_con_lai_mg_100ml;
+            if (kiem_tra > 0 && kiem_tra <=50) {
+              thong_bao += "!!Mức phạt:<br> 2-3 triệu, tước bằng lái 10-12 tháng đối với xe máy.<br> 6-8 triệu, tước bằng lái 10-12 tháng đối với ô tô.<br> 80000-100000 đồng đối với xe đạp.";
+            } else if (kiem_tra > 50 && kiem_tra <= 80) {
+              thong_bao += "!!Mức phạt:<br> 4-5 triệu, tước bằng lái 16-18 tháng đối với xe máy.<br> 16-18 triệu, tước bằng lái 16-18 tháng đối với ô tô. <br> 200000-400000 đồng đối với xe đạp.";
+            } else if (kiem_tra > 80) {
+              thong_bao += "!!Mức phạt:<br> 6-8 triệu, tước bằng lái 22-24 tháng đối với xe máy.<br> 30-40 triệu, tước bằng lái 22-24 tháng đối với ô tô. <br> 600000-800000 đồng đối với xe đạp.";
+            };
+          }
+         }
+        bang_ket_qua.innerHTML = thong_bao;
+      }
+    </script>
+  </head>
+  <body>
+    <div id="ket_qua">
+      <label id="lbl_ket_qua">Để tính nồng độ cồn xin vui lòng điền đầy đủ các tham số</label>
+    </div>
+    <hr>
+    <form>
+      Giới tính:<br>
+      <select id="gioi_tinh" onchange="refreshResult()">
+        <option value="Nam">Nam</option>
+        <option value="Nữ">Nữ</option>
+      </select><br>
+      Cân nặng (kg):<br>
+      <input type="number" id="can_nang" onkeyup="refreshResult()" onchange="refreshResult()"><br>
+      Số lít đã uống:<br>
+      <input type="number" id="the_tich"  onkeyup="refreshResult()" onchange="refreshResult()"><br>
+      Độ cồn theo đơn vị %(ví dụ bia Hà Nội 4.5% thì nhập 4.5):<br>
+      <input type="number" id="do_con" onkeyup="refreshResult()" onchange="refreshResult()"><br>
+      Sau bao nhiêu giờ?<br>
+      <input type="number" id="thoi_gian" onkeyup="refreshResult()" onchange="refreshResult()"><br>
+    </form>
+    <hr>
+    Tham khảo:<br>
+    [1] <a href = "https://soha.vn/3-muc-phat-nong-do-con-voi-nguoi-dieu-khien-o-to-xe-may-xe-dap-tu-2020-20200103150120701.htm">3 mức phạt nồng độ cồn với người điều khiển ô tô, xe máy, xe đạp từ 2020</a><br>
+    [2] <a href = "https://www.wikihow.com/Calculate-Blood-Alcohol-Content-(Widmark-Formula)">How to Calculate Blood Alcohol Content (Widmark Formula)</a>
+  </body>
+</html>
